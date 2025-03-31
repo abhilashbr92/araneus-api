@@ -15,7 +15,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, { bufferLogs: true });
   app.useLogger(app.get(Logger));
   app.enableCors();
-  await app.listen(55555);
-  console.log(`Main API Server started listening on port :55555`);
+  const port = process.env.PORT || 4000;
+  await app.listen(port);
+  console.log(`Main API Server started listening on port :${port}`);
 }
 bootstrap();
