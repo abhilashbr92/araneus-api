@@ -11,6 +11,18 @@ export class SecureUserController {
 
     constructor(public userSrvc: UserService) { }
 
+    @Get("List")
+    @UseFilters(ExceptionHandler)
+    async getUsersList(@Res() res: Response) {
+        const resp = await this.userSrvc.GetAllUsers();
+        res.json(resp);
+    }
+
+    @Post('Add')
+    async addUser(@Req() req: Request, @Res() res: Response) {
+        const resp = await this.userSrvc.CreateUser(req.body.FName, req.body.LName, req.body.UName);
+        res.json(resp);
+    }
 
     @Get("GetUserInfo")
     @UseFilters(ExceptionHandler)

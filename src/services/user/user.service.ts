@@ -4,6 +4,8 @@ import { LoginSession } from 'src/models/login-session';
 import { User } from 'src/models/user';
 import { UserFace } from 'src/models/user-face';
 import * as tf from '@tensorflow/tfjs';
+import * as bcrypt from 'bcryptjs';
+import * as jwt from 'jsonwebtoken';
 @Injectable()
 export class UserService {
 
@@ -35,6 +37,36 @@ export class UserService {
             }
         } catch (error) {
             this.logger.error(`Error occured in LogoutAuthenticatedUser method : ${JSON.stringify(error)}`);
+            throw error;
+        }
+    }
+
+    async CreateUser(fname: any, lname: any, uname: any) {
+        try {
+            const existingUser = await User.findOne({ UName: uname });
+            if (!existingUser) {
+                const salt: string = bcrypt.genSaltSync(10);
+                const hashedPwd: string = bcrypt.hashSync('password', salt);
+                const userInfo = new User({ FName: fname, LName: lname, UName: uname, Pwd: hashedPwd, Admin: false });
+                const savedUser = await userInfo.save();
+                this.logger.info(`User saved successfully : ${JSON.stringify(savedUser)}`);
+                console.log('User created successfully');
+                return savedUser;
+            } else {
+                throw { message: "User already exists with this username" };
+            }
+        } catch (error) {
+            this.logger.error(`Error occured in CreateUser method : ${JSON.stringify(error)}`);
+            throw error;
+        }
+    }
+
+    async GetAllUsers() {
+        try {
+            const usersList = await User.find({});
+            return usersList;
+        } catch (error) {
+            this.logger.error(`Error occured in GetAllUsers method : ${JSON.stringify(error)}`);
             throw error;
         }
     }
