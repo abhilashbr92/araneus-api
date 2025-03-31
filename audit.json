@@ -1,0 +1,41 @@
+{
+    "keepSettings": {
+        "type": 2,
+        "amount": 7
+    },
+    "auditFilename": "audit.json",
+    "hashType": "md5",
+    "extension": "",
+    "files": [
+        {
+            "date": 1743404357658,
+            "name": "C:\\Araneus\\Experiments\\api\\dist\\logs\\2025-03-31-debug.stream.log",
+            "hash": "d166f0553a1b884a22a7ec84854c716d"
+        },
+        {
+            "date": 1743404357660,
+            "name": "C:\\Araneus\\Experiments\\api\\dist\\logs\\2025-03-31-error.stream.log",
+            "hash": "822733fe4cade4749ad7dc586d46a1cf"
+        },
+        {
+            "date": 1743404357664,
+            "name": "C:\\Araneus\\Experiments\\api\\dist\\logs\\2025-03-31-fatal.stream.log",
+            "hash": "38666fa5539b15bfb2db66d4821f950a"
+        },
+        {
+            "date": 1743404357665,
+            "name": "C:\\Araneus\\Experiments\\api\\dist\\logs\\2025-03-31-info.stream.log",
+            "hash": "58b9491144bba1c0cc3b04aae7500fc3"
+        },
+        {
+            "date": 1743404357667,
+            "name": "C:\\Araneus\\Experiments\\api\\dist\\logs\\2025-03-31-trace.stream.log",
+            "hash": "15dde3179b260264103c35353f21265d"
+        },
+        {
+            "date": 1743404357668,
+            "name": "C:\\Araneus\\Experiments\\api\\dist\\logs\\2025-03-31-warn.stream.log",
+            "hash": "74674d30031ee6fc8576979da0d3195a"
+        }
+    ]
+}
