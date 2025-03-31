@@ -9,8 +9,9 @@ export class CustomerService {
 
     }
 
-    async CreateCustomer(name: any, phone: any) {
+    async CreateCustomer(name: any, argPhone: any) {
         try {
+            const phone = (argPhone.indexOf('+91') > -1) ? argPhone : '+91' + argPhone;
             const existingCustomer = await Customer.findOne({ Phone: phone });
             if (!existingCustomer) {
                 const customerInfo = new Customer({ Name: name, Phone: phone });
