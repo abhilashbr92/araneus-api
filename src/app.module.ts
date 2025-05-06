@@ -6,9 +6,7 @@ import { APP_FILTER } from '@nestjs/core';
 import { LoggerStreams } from './logger-config';
 import { ExceptionHandler } from './utils/exception-handler/exception-handler';
 import { AuthenticationController } from './controllers/authentication/authentication.controller';
-import { CustomerController } from './controllers/customer/customer.controller';
 import { AuthenticationService } from './services/authentication/authentication.service';
-import { CustomerService } from './services/customer/customer.service';
 import { SecureUserController } from './controllers/secure-user/secure-user.controller';
 import { UserService } from './services/user/user.service';
 import { UserAuthGuardService } from './services/user-auth-guard/user-auth-guard.service';
@@ -26,10 +24,10 @@ const multistream = require('pino-multi-stream').multistream;
       }, multistream(LoggerStreams)
     ]
   })],
-  controllers: [AuthenticationController, CustomerController, SecureUserController],
+  controllers: [AuthenticationController, SecureUserController],
   providers: [{
     provide: APP_FILTER,
     useClass: ExceptionHandler
-  }, AuthenticationService, CustomerService, UserService, UserAuthGuardService],
+  }, AuthenticationService, UserService, UserAuthGuardService],
 })
 export class AppModule { }
