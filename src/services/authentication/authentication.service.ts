@@ -12,29 +12,6 @@ export class AuthenticationService {
         this.logger.setContext(AuthenticationService.name);
     }
 
-    private async CreateUsers() {
-        try {
-            const salt: string = bcrypt.genSaltSync(10);
-            const hashedPwd: string = bcrypt.hashSync('password', salt);
-            const usersList = [
-                { FName: "Umesh", LName: "Yarlagadda", UName: "umeshyaralagadda", Pwd: hashedPwd, Admin: true },
-                { FName: "Abhilash", LName: "Reddy", UName: "abhilashreddy", Pwd: hashedPwd },
-                { FName: "Balaraju", LName: "Nimmakayala", UName: "balarajunimmakayala", Pwd: hashedPwd },
-            ];
-            for (let i = 0; i < usersList.length; i++) {
-                let userInfo = JSON.parse(JSON.stringify(usersList[i]));
-                userInfo = new User(userInfo);
-                const savedUser = await userInfo.save();
-                this.logger.info(`User saved successfully : ${JSON.stringify(savedUser)}`);
-            }
-            console.log('Users created successfully');
-            return true;
-        } catch (error) {
-            this.logger.error(`Error occured in CreateUsers method : ${JSON.stringify(error)}`);
-            throw error;
-        }
-    }
-
     async AuthenticateUser(userName: any, password: string) {
         try {
             const matchedRecord = await this.GetUserRecordWithLoginCredentials(userName);

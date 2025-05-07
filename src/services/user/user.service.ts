@@ -5,7 +5,6 @@ import { User } from 'src/models/user';
 import { UserFace } from 'src/models/user-face';
 import * as tf from '@tensorflow/tfjs';
 import * as bcrypt from 'bcryptjs';
-import * as jwt from 'jsonwebtoken';
 @Injectable()
 export class UserService {
 
@@ -41,13 +40,13 @@ export class UserService {
         }
     }
 
-    async CreateUser(fname: any, lname: any, uname: any) {
+    async CreateUser(fname: any, lname: any, uname: any, admin: boolean) {
         try {
             const existingUser = await User.findOne({ UName: uname });
             if (!existingUser) {
                 const salt: string = bcrypt.genSaltSync(10);
                 const hashedPwd: string = bcrypt.hashSync('password', salt);
-                const userInfo = new User({ FName: fname, LName: lname, UName: uname, Pwd: hashedPwd, Admin: false });
+                const userInfo = new User({ FName: fname, LName: lname, UName: uname, Pwd: hashedPwd, Admin: admin });
                 const savedUser = await userInfo.save();
                 this.logger.info(`User saved successfully : ${JSON.stringify(savedUser)}`);
                 console.log('User created successfully');
@@ -71,15 +70,12 @@ export class UserService {
         }
     }
 
-    async SaveUserFace(userId: string, embedding: number[]) {
+    async SaveUserFace(userId: string, embeddings: any) {
         try {
-            let userInfo = await UserFace.findOne({ UserId: userId });
-            if (!userInfo) {
-                userInfo = new UserFace({ UserId: userId, Embeddings: [] });
-            }
-            userInfo.embeddings.push(embedding);
-            await userInfo.save();
-            return { message: 'Face saved successfully' };
+            const userFace = new UserFace({ UserId: userId, Embeddings: embeddings });
+            const savedFace = await userFace.save();
+            const savedUser = await User.findOneAndUpdate({ "_id": userId }, { FaceReg: true }, { new: true });
+            return savedUser;
         } catch (error) {
             this.logger.error(`Error occured in SaveUserFace method : ${JSON.stringify(error)}`);
             throw error;
@@ -110,4 +106,5 @@ export class UserService {
             throw error;
         }
     }
+
 }

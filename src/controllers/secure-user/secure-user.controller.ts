@@ -20,7 +20,7 @@ export class SecureUserController {
 
     @Post('Add')
     async addUser(@Req() req: Request, @Res() res: Response) {
-        const resp = await this.userSrvc.CreateUser(req.body.FName, req.body.LName, req.body.UName);
+        const resp = await this.userSrvc.CreateUser(req.body.FName, req.body.LName, req.body.UName, req.body.Admin);
         res.json(resp);
     }
 
