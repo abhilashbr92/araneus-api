@@ -87,12 +87,17 @@ export class UserService {
             let matchedUser: any;
             let matchedUserFace: any;
             const usersFaceList = await UserFace.find({});
-            const inputTensor = tf.tensor(embedding);
+            // const inputTensor = tf.tensor(embedding);
             for (const userFace of usersFaceList) {
                 for (const storedEmbedding of userFace.Embeddings) {
-                    const storedTensor = tf.tensor(storedEmbedding);
-                    const similarity: any = tf.losses.cosineDistance(inputTensor, storedTensor, 0).arraySync();
-                    if (similarity < 0.5) { // Define the similarity threshold value here
+                    // const storedTensor = tf.tensor(storedEmbedding);
+                    // const similarity: any = tf.losses.cosineDistance(inputTensor, storedTensor, 0).arraySync();
+                    // if (similarity < 0.5) { // Define the similarity threshold value here
+                    //     matchedUserFace = userFace;
+                    //     break;
+                    // }
+                    const score = this.cosineSimilarity(embedding, storedEmbedding);
+                    if (score > 0.8) {
                         matchedUserFace = userFace;
                         break;
                     }
@@ -109,6 +114,13 @@ export class UserService {
             this.logger.error(`Error occured in VerifyUserFace method : ${JSON.stringify(error)}`);
             throw error;
         }
+    }
+
+    cosineSimilarity(a: number[], b: number[]) {
+        const dot = a.reduce((sum, val, i) => sum + val * b[i], 0);
+        const normA = Math.sqrt(a.reduce((sum, val) => sum + val * val, 0));
+        const normB = Math.sqrt(b.reduce((sum, val) => sum + val * val, 0));
+        return dot / (normA * normB);
     }
 
 }
