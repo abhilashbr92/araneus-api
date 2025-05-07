@@ -48,13 +48,13 @@ export class SecureUserController {
 
     @Post('Registerface')
     async registerFace(@Req() req: Request, @Res() res: Response) {
-        console.log(JSON.stringify(req.body));
         const resp = await this.userSrvc.SaveUserFace(req.body.UserId, req.body.Embeddings);
         res.json(resp);
     }
 
     @Post('Loginface')
     async loginFace(@Req() req: Request, @Res() res: Response) {
+        console.log(JSON.stringify(req.body.Embedding));
         const resp = await this.userSrvc.VerifyUserFace(req.body.Embedding);
         res.json(resp);
     }
