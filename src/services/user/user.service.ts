@@ -84,23 +84,27 @@ export class UserService {
 
     async VerifyUserFace(embedding: number[]) {
         try {
-            const users = await UserFace.find({});
-            const inputTensor = tf.tensor(embedding);
             let matchedUser: any;
-            for (const user of users) {
-                for (const storedEmbedding of user.Embeddings) {
+            let matchedUserFace: any;
+            const usersFaceList = await UserFace.find({});
+            const inputTensor = tf.tensor(embedding);
+            for (const userFace of usersFaceList) {
+                for (const storedEmbedding of userFace.Embeddings) {
                     const storedTensor = tf.tensor(storedEmbedding);
                     const similarity: any = tf.losses.cosineDistance(inputTensor, storedTensor, 0).arraySync();
                     if (similarity < 0.5) { // Define the similarity threshold value here
-                        matchedUser = user;
+                        matchedUserFace = userFace;
                         break;
                     }
                 }
-                if (matchedUser) {
+                if (matchedUserFace) {
                     break;
                 }
             }
-            return { Verified: matchedUser != null, User: matchedUser };
+            if (matchedUserFace != null) {
+                matchedUser = await User.findOne({ "_id": matchedUserFace.UserId });
+            }
+            return { Verified: matchedUser != null, User: matchedUser != null ? matchedUser.UName : null };
         } catch (error) {
             this.logger.error(`Error occured in VerifyUserFace method : ${JSON.stringify(error)}`);
             throw error;
