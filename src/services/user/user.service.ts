@@ -97,6 +97,7 @@ export class UserService {
                     //     break;
                     // }
                     const score = this.cosineSimilarity(embedding, storedEmbedding);
+                    console.log(`Cosine Similarity Score: ${score}`);
                     if (score > 0.8) {
                         matchedUserFace = userFace;
                         break;
@@ -117,6 +118,10 @@ export class UserService {
     }
 
     cosineSimilarity(a: number[], b: number[]) {
+        if (a.length !== b.length) {
+            console.log("Vectors must be of the same length");
+            return -1;
+        }
         const dot = a.reduce((sum, val, i) => sum + val * b[i], 0);
         const normA = Math.sqrt(a.reduce((sum, val) => sum + val * val, 0));
         const normB = Math.sqrt(b.reduce((sum, val) => sum + val * val, 0));
