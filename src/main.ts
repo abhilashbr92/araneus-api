@@ -2,6 +2,7 @@ import * as mongoose from 'mongoose';
 import { Logger } from 'nestjs-pino';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { json, urlencoded } from 'express';
 async function bootstrap() {
   const options: any = {
     autoIndex: false
@@ -14,6 +15,8 @@ async function bootstrap() {
   }
   const app = await NestFactory.create(AppModule, { bufferLogs: true });
   app.useLogger(app.get(Logger));
+  app.use(json({ limit: '1mb' }));
+  app.use(urlencoded({ limit: '1mb', extended: true }));
   app.enableCors();
   const port = process.env.PORT || 4000;
   await app.listen(port);
