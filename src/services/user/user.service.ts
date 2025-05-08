@@ -8,6 +8,8 @@ import * as bcrypt from 'bcryptjs';
 @Injectable()
 export class UserService {
 
+    private threshold = 1.0; // tune based on model (FaceNet: ~1.0)
+
     constructor(public logger: PinoLogger) {
         this.logger.setContext(UserService.name);
     }
@@ -87,22 +89,38 @@ export class UserService {
         return embedding.map(val => val / norm);
     }
 
-    async VerifyUserFace(embedding: number[]) {
+    async VerifyUserFace(inputEmbedding: number[]) {
         try {
             let matchedUser: any;
             let matchedUserFace: any;
             const usersFaceList = await UserFace.find({});
-            const inputEmbedding = this.normalize(embedding);
+            const normalizedInputEmbedding = this.normalize(inputEmbedding);
+            let minDistance = Number.MAX_VALUE;
             for (const userFace of usersFaceList) {
-                let bestScore = -1;
+                // let bestScore = -1;
+                // for (const storedEmbedding of userFace.Embeddings) {
+                //     const normalizedStoredEmbedding = this.normalize(storedEmbedding);
+                //     const score = this.cosineSimilarity(inputEmbedding, normalizedStoredEmbedding);
+                //     console.log(`Score: ${score}`);
+                //     bestScore = Math.max(bestScore, score);
+                // }
+                // console.log(`Best score for user ${userFace.UserId}: ${bestScore}`);
+                // if (bestScore > 0.8) {
+                //     matchedUserFace = userFace;
+                //     break;
+                // }
+
                 for (const storedEmbedding of userFace.Embeddings) {
                     const normalizedStoredEmbedding = this.normalize(storedEmbedding);
-                    const score = this.cosineSimilarity(inputEmbedding, normalizedStoredEmbedding);
-                    console.log(`Score: ${score}`);
-                    bestScore = Math.max(bestScore, score);
+                    const distance = this.euclideanDistance(normalizedInputEmbedding, normalizedStoredEmbedding);
+                    console.log(`Distance: ${distance}`);
+                    console.log('minDistance:', minDistance);
+                    if (distance < minDistance) {
+                        minDistance = distance;
+                    }
                 }
-                console.log(`Best score for user ${userFace.UserId}: ${bestScore}`);
-                if (bestScore > 0.8) {
+                console.log(`Min distance for user ${userFace.UserId}: ${minDistance}`);
+                if (minDistance < this.threshold) {
                     matchedUserFace = userFace;
                     break;
                 }
@@ -126,6 +144,15 @@ export class UserService {
         const normA = Math.sqrt(a.reduce((sum, val) => sum + val * val, 0));
         const normB = Math.sqrt(b.reduce((sum, val) => sum + val * val, 0));
         return dot / (normA * normB);
+    }
+
+    euclideanDistance(a: number[], b: number[]): number {
+        let sum = 0;
+        for (let i = 0; i < a.length; i++) {
+            const diff = a[i] - b[i];
+            sum += diff * diff;
+        }
+        return Math.sqrt(sum);
     }
 
 }
