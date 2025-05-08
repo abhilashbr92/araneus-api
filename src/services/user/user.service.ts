@@ -87,18 +87,15 @@ export class UserService {
             let matchedUser: any;
             let matchedUserFace: any;
             const usersFaceList = await UserFace.find({});
-            // const inputTensor = tf.tensor(embedding);
+            const inputTensor = tf.tensor(embedding);
             for (const userFace of usersFaceList) {
                 for (const storedEmbedding of userFace.Embeddings) {
-                    // const storedTensor = tf.tensor(storedEmbedding);
-                    // const similarity: any = tf.losses.cosineDistance(inputTensor, storedTensor, 0).arraySync();
-                    // if (similarity < 0.5) { // Define the similarity threshold value here
-                    //     matchedUserFace = userFace;
-                    //     break;
-                    // }
+                    const storedTensor = tf.tensor(storedEmbedding);
+                    const similarity: any = tf.losses.cosineDistance(inputTensor, storedTensor, 0).arraySync();
+                    console.log(`Cosine Distance Score: ${similarity}`);
                     const score = this.cosineSimilarity(embedding, storedEmbedding);
                     console.log(`Cosine Similarity Score: ${score}`);
-                    if (score > 0.8) {
+                    if (score > 0.6) { // Define the similarity threshold value here
                         matchedUserFace = userFace;
                         break;
                     }
