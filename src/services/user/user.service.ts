@@ -95,7 +95,6 @@ export class UserService {
             let matchedUserFace: any;
             const usersFaceList = await UserFace.find({});
             const normalizedInputEmbedding = this.normalize(inputEmbedding);
-            let minDistance = Number.MAX_VALUE;
             for (const userFace of usersFaceList) {
                 // let bestScore = -1;
                 // for (const storedEmbedding of userFace.Embeddings) {
@@ -109,12 +108,10 @@ export class UserService {
                 //     matchedUserFace = userFace;
                 //     break;
                 // }
-
+                let minDistance = Number.MAX_VALUE;
                 for (const storedEmbedding of userFace.Embeddings) {
                     const normalizedStoredEmbedding = this.normalize(storedEmbedding);
                     const distance = this.euclideanDistance(normalizedInputEmbedding, normalizedStoredEmbedding);
-                    console.log(`Distance: ${distance}`);
-                    console.log('minDistance:', minDistance);
                     if (distance < minDistance) {
                         minDistance = distance;
                     }
