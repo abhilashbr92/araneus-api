@@ -102,7 +102,7 @@ export class UserService {
                     bestScore = Math.max(bestScore, score);
                 }
                 console.log(`Best score for user ${userFace.UserId}: ${bestScore}`);
-                if (bestScore > 0.6) {
+                if (bestScore > 0.8) {
                     matchedUserFace = userFace;
                     break;
                 }
