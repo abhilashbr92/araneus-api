@@ -82,25 +82,28 @@ export class UserService {
         }
     }
 
+    normalize(embedding: number[]): number[] {
+        const norm = Math.sqrt(embedding.reduce((sum, val) => sum + val * val, 0));
+        return embedding.map(val => val / norm);
+    }
+
     async VerifyUserFace(embedding: number[]) {
         try {
             let matchedUser: any;
             let matchedUserFace: any;
             const usersFaceList = await UserFace.find({});
-            const inputTensor = tf.tensor(embedding);
+            const inputEmbedding = this.normalize(embedding);
             for (const userFace of usersFaceList) {
+                let bestScore = -1;
                 for (const storedEmbedding of userFace.Embeddings) {
-                    const storedTensor = tf.tensor(storedEmbedding);
-                    const similarity: any = tf.losses.cosineDistance(inputTensor, storedTensor, 0).arraySync();
-                    console.log(`Cosine Distance Score: ${similarity}`);
-                    const score = this.cosineSimilarity(embedding, storedEmbedding);
-                    console.log(`Cosine Similarity Score: ${score}`);
-                    if (score > 0.6) { // Define the similarity threshold value here
-                        matchedUserFace = userFace;
-                        break;
-                    }
+                    const normalizedStoredEmbedding = this.normalize(storedEmbedding);
+                    const score = this.cosineSimilarity(inputEmbedding, normalizedStoredEmbedding);
+                    console.log(`Score: ${score}`);
+                    bestScore = Math.max(bestScore, score);
                 }
-                if (matchedUserFace) {
+                console.log(`Best score for user ${userFace.UserId}: ${bestScore}`);
+                if (bestScore > 0.6) {
+                    matchedUserFace = userFace;
                     break;
                 }
             }
