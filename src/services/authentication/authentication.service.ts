@@ -81,4 +81,15 @@ export class AuthenticationService {
             throw error;
         }
     }
+
+    async AddFace(faceData: any) {
+        try {
+            console.log("Adding face data to user record");
+            console.log(faceData);
+            return true;
+        } catch (error) {
+            this.logger.error(`Error occured in AddFace method : ${JSON.stringify(error)}`);
+            throw error;
+        }
+    }
 }

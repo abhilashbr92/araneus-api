@@ -14,4 +14,10 @@ export class AuthenticationController {
         res.json(resp);
     }
 
+    @Post("AddFace")
+    @UseFilters(ExceptionHandler)
+    async addFace(@Req() req: Request, @Res() res: Response) {
+        const resp = await this.authSrvc.AddFace(req.body);
+        res.json(resp);
+    }
 }
