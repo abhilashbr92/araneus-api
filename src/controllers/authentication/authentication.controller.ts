@@ -13,11 +13,4 @@ export class AuthenticationController {
         const resp = await this.authSrvc.AuthenticateUser(req.body.UName.trim(), req.body.Pwd.trim());
         res.json(resp);
     }
-
-    @Post("AddFace")
-    @UseFilters(ExceptionHandler)
-    async addFace(@Req() req: Request, @Res() res: Response) {
-        const resp = await this.authSrvc.AddFace(req.body);
-        res.json(resp);
-    }
 }

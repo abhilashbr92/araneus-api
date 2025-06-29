@@ -8,39 +8,39 @@
     "extension": "",
     "files": [
         {
-            "date": 1746540246531,
-            "name": "C:\\Araneus\\araneus-api\\dist\\logs\\2025-05-06-warn.stream.log",
-            "hash": "1e78b41ca88b181f3b0711d77ac9e252"
+            "date": 1751120602642,
+            "name": "C:\\Araneus\\araneus-api\\dist\\logs\\2025-06-28-warn.stream.log",
+            "hash": "46d99a2fc24ef8638e864e08068091ba"
         },
         {
-            "date": 1746600605309,
-            "name": "C:\\Araneus\\araneus-api\\dist\\logs\\2025-05-07-debug.stream.log",
-            "hash": "fa8ce97d0efc1705a854db2e17fd73c6"
+            "date": 1751157355006,
+            "name": "C:\\Araneus\\araneus-api\\dist\\logs\\2025-06-29-debug.stream.log",
+            "hash": "e54b16f2d0e2aaf1b324e3d9d53849da"
         },
         {
-            "date": 1746600605313,
-            "name": "C:\\Araneus\\araneus-api\\dist\\logs\\2025-05-07-error.stream.log",
-            "hash": "26c7902f0b229ee061a06516f7005d9a"
+            "date": 1751157355011,
+            "name": "C:\\Araneus\\araneus-api\\dist\\logs\\2025-06-29-error.stream.log",
+            "hash": "ce7935f6a8adfa8bdd1fb16e0803f7bc"
         },
         {
-            "date": 1746600605314,
-            "name": "C:\\Araneus\\araneus-api\\dist\\logs\\2025-05-07-fatal.stream.log",
-            "hash": "75295e9bf5ad4fcd41d81cad052bef97"
+            "date": 1751157355012,
+            "name": "C:\\Araneus\\araneus-api\\dist\\logs\\2025-06-29-fatal.stream.log",
+            "hash": "ce64587827b62523b218410328f28476"
         },
         {
-            "date": 1746600605315,
-            "name": "C:\\Araneus\\araneus-api\\dist\\logs\\2025-05-07-info.stream.log",
-            "hash": "d7843f70e0438dfef014caf8d883d142"
+            "date": 1751157355014,
+            "name": "C:\\Araneus\\araneus-api\\dist\\logs\\2025-06-29-info.stream.log",
+            "hash": "a98ffd6cdaad137922277f26c474649e"
         },
         {
-            "date": 1746600605317,
-            "name": "C:\\Araneus\\araneus-api\\dist\\logs\\2025-05-07-trace.stream.log",
-            "hash": "566866aab2d00bc6eac847c94ee952de"
+            "date": 1751157355016,
+            "name": "C:\\Araneus\\araneus-api\\dist\\logs\\2025-06-29-trace.stream.log",
+            "hash": "0b87b8e4b399b8cb42630f46df14cd17"
         },
         {
-            "date": 1746600605318,
-            "name": "C:\\Araneus\\araneus-api\\dist\\logs\\2025-05-07-warn.stream.log",
-            "hash": "03131b01ffe6345577499c192f21e0bd"
+            "date": 1751157355018,
+            "name": "C:\\Araneus\\araneus-api\\dist\\logs\\2025-06-29-warn.stream.log",
+            "hash": "8ca920cfb1f37f59dc275e65503af29f"
         }
     ]
 }
